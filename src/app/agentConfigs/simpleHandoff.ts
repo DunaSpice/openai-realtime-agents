@@ -7,7 +7,7 @@ import { memgraphMcp } from '@/app/lib/memgraphMcp';
 const memgraphTools = await memgraphMcp.listTools();
 
 export const memgraphExpert = new RealtimeAgent({
-  name: 'memgraphExpert',
+  name: 'MemgraphExpert',
   voice: 'sage',
   instructions:
     'You are an expert in the Memgraph database. Answer user questions by running queries with the provided tools and summarize the results.',
@@ -30,7 +30,7 @@ export const greeterAgent = new RealtimeAgent({
   name: 'greeter',
   voice: 'sage',
   instructions:
-    "Please greet the user and ask them if they'd like to talk to our Memgraph expert. If yes, hand off to the 'memgraphExpert' agent.",
+    "Please greet the user and ask them if they'd like to talk to our Memgraph expert. If yes, hand off to the 'MemgraphExpert' agent.",
   handoffs: [memgraphExpert],
   tools: [],
   handoffDescription: 'Agent that greets the user',

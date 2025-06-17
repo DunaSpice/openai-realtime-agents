@@ -82,12 +82,21 @@ Configuration in `src/app/agentConfigs/simpleHandoff.ts`
 import { RealtimeAgent } from '@openai/agents/realtime';
 
 // Define agents using the OpenAI Agents SDK
+const memgraphTools = await memgraphMcp.listTools();
+
 export const memgraphExpert = new RealtimeAgent({
-  name: 'memgraphExpert',
+  name: 'MemgraphExpert',
   handoffDescription: 'Agent that answers Memgraph questions.', // Context for the agent_transfer tool
   instructions:
     'Use the Memgraph tools to run queries and summarize results for the user.',
-  tools: [],
+  tools: memgraphTools.map((t) =>
+    tool({
+      name: t.name,
+      description: t.description,
+      parameters: t.parameters,
+      execute: async (input: any) => memgraphMcp.callTool(t.name, input),
+    })
+  ),
   handoffs: [],
 });
 
@@ -95,7 +104,7 @@ export const greeterAgent = new RealtimeAgent({
   name: 'greeter',
   handoffDescription: 'Agent that greets the user.',
   instructions:
-    "Please greet the user and ask if they'd like help from our Memgraph expert. If yes, hand off to the 'memgraphExpert' agent.",
+    "Please greet the user and ask if they'd like help from our Memgraph expert. If yes, hand off to the 'MemgraphExpert' agent.",
   tools: [],
   handoffs: [memgraphExpert], // Define which agents this agent can hand off to
 });
