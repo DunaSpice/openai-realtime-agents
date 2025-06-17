@@ -75,18 +75,18 @@ This pattern is inspired by [OpenAI Swarm](https://github.com/openai/swarm) and 
 Here's a [video walkthrough](https://x.com/OpenAIDevs/status/1880306081517432936) showing how it works. You should be able to use this repo to prototype your own multi-agent realtime voice app in less than 20 minutes!
 
 ![Screenshot of the Realtime API Agents Demo](/public/screenshot_handoff.png)
-*In this simple example, the user is transferred from a greeter agent to a haiku agent. See below for the simple, full configuration of this flow.*
+*In this simple example, the user is transferred from a greeter agent to a Memgraph expert agent. See below for the simple, full configuration of this flow.*
 
-Configuration in `src/app/agentConfigs/simpleExample.ts`
+Configuration in `src/app/agentConfigs/simpleHandoff.ts`
 ```typescript
 import { RealtimeAgent } from '@openai/agents/realtime';
 
 // Define agents using the OpenAI Agents SDK
-export const haikuWriterAgent = new RealtimeAgent({
-  name: 'haikuWriter',
-  handoffDescription: 'Agent that writes haikus.', // Context for the agent_transfer tool
+export const memgraphExpert = new RealtimeAgent({
+  name: 'memgraphExpert',
+  handoffDescription: 'Agent that answers Memgraph questions.', // Context for the agent_transfer tool
   instructions:
-    'Ask the user for a topic, then reply with a haiku about that topic.',
+    'Use the Memgraph tools to run queries and summarize results for the user.',
   tools: [],
   handoffs: [],
 });
@@ -95,13 +95,13 @@ export const greeterAgent = new RealtimeAgent({
   name: 'greeter',
   handoffDescription: 'Agent that greets the user.',
   instructions:
-    "Please greet the user and ask them if they'd like a haiku. If yes, hand off to the 'haikuWriter' agent.",
+    "Please greet the user and ask if they'd like help from our Memgraph expert. If yes, hand off to the 'memgraphExpert' agent.",
   tools: [],
-  handoffs: [haikuWriterAgent], // Define which agents this agent can hand off to
+  handoffs: [memgraphExpert], // Define which agents this agent can hand off to
 });
 
 // An Agent Set is just an array of the agents that participate in the scenario
-export default [greeterAgent, haikuWriterAgent];
+export default [greeterAgent, memgraphExpert];
 ```
 ## CustomerServiceRetail Flow
 

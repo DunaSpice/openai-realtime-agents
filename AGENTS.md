@@ -23,7 +23,8 @@ The project includes a lightweight MCP implementation for Memgraph located at `s
 - `get_betweenness_centrality`
 - `get_page_rank`
 
-These tools follow the `MCPServer` interface from the OpenAI Agents SDK and are wired into the `haikuWriterAgent` configuration in `src/app/agentConfigs/simpleHandoff.ts`.
+
+These tools follow the `MCPServer` interface from the OpenAI Agents SDK and are wired into the `memgraphExpert` configuration in `src/app/agentConfigs/simpleHandoff.ts`.
 
 For quick validation of the Memgraph connection there is also a `memgraphTestAgent` defined in `src/app/agentConfigs/memgraphTest.ts`. It exposes only the `run_query` tool so you can submit Cypher statements directly and view the raw results.
 
