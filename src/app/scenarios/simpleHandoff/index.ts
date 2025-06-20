@@ -37,3 +37,5 @@ export const greeterAgent = new RealtimeAgent({
 });
 
 export const simpleHandoffScenario = [greeterAgent, memgraphExpert];
+
+export default simpleHandoffScenario;
