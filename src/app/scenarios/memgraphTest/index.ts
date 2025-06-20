@@ -24,3 +24,5 @@ export const memgraphTestAgent = new RealtimeAgent({
 });
 
 export const memgraphTestScenario = [memgraphTestAgent];
+
+export default memgraphTestScenario;

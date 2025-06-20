@@ -23,17 +23,7 @@ import { useEvent } from "@/app/contexts/EventContext";
 import { RealtimeClient } from "@/app/agentConfigs/realtimeClient";
 
 // Agent configs
-import { allAgentSets, defaultAgentSetKey } from "@/app/agentConfigs";
-// New SDK scenarios
-import { simpleHandoffScenario } from "@/app/agentConfigs/simpleHandoff";
-import { customerServiceRetailScenario } from "@/app/agentConfigs/customerServiceRetail";
-import { chatSupervisorScenario } from "@/app/agentConfigs/chatSupervisor";
-
-const sdkScenarioMap: Record<string, RealtimeAgent[]> = {
-  simpleHandoff: simpleHandoffScenario,
-  customerServiceRetail: customerServiceRetailScenario,
-  chatSupervisor: chatSupervisorScenario,
-};
+import { allAgentSets, defaultAgentSetKey } from "@/app/scenarios";
 
 import useAudioDownload from "./hooks/useAudioDownload";
 
@@ -185,7 +175,7 @@ function App() {
 
   const connectToRealtime = async () => {
     const agentSetKey = searchParams.get("agentConfig") || "default";
-    if (sdkScenarioMap[agentSetKey]) {
+    if (allAgentSets[agentSetKey]) {
       // Use new SDK path
       if (sessionStatus !== "DISCONNECTED") return;
       setSessionStatus("CONNECTING");
@@ -195,7 +185,7 @@ function App() {
         if (!EPHEMERAL_KEY) return;
 
         // Ensure the selectedAgentName is first so that it becomes the root
-        const reorderedAgents = [...sdkScenarioMap[agentSetKey]];
+        const reorderedAgents = [...allAgentSets[agentSetKey]];
         const idx = reorderedAgents.findIndex((a) => a.name === selectedAgentName);
         if (idx > 0) {
           const [agent] = reorderedAgents.splice(idx, 1);

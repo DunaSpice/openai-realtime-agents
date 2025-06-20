@@ -17,3 +17,5 @@ export const customerServiceRetailScenario = [
   salesAgent,
   simulatedHumanAgent,
 ];
+
+export default customerServiceRetailScenario;
