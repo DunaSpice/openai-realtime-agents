@@ -27,8 +27,7 @@ export const salesAgent = new RealtimeAgent({
         required: ['category'],
         additionalProperties: false,
       },
-      execute: async (input: any) => {
-        const { category } = input as { category: string };
+      execute: async ({ category }: { category: string }) => {
         const items = [
           { item_id: 101, type: 'snowboard', name: 'Alpine Blade', retail_price_usd: 450, sale_price_usd: 360, sale_discount_pct: 20 },
           { item_id: 102, type: 'snowboard', name: 'Peak Bomber', retail_price_usd: 499, sale_price_usd: 374, sale_discount_pct: 25 },
@@ -64,7 +63,7 @@ export const salesAgent = new RealtimeAgent({
         required: ['item_id'],
         additionalProperties: false,
       },
-      execute: async (input: any) => ({ success: true }),
+      execute: async () => ({ success: true }),
     }),
 
     tool({
@@ -90,7 +89,7 @@ export const salesAgent = new RealtimeAgent({
         required: ['item_ids', 'phone_number'],
         additionalProperties: false,
       },
-      execute: async (input: any) => ({ checkoutUrl: 'https://example.com/checkout' }),
+      execute: async () => ({ checkoutUrl: 'https://example.com/checkout' }),
     }),
   ],
 

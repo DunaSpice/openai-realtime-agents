@@ -1,17 +1,19 @@
 import type { RealtimeAgent } from '@openai/agents/realtime';
 
-// Eagerly import all scenario modules under this directory
-const modules = import.meta.glob('./*/index.ts', { eager: true }) as Record<string, any>;
+// Use Webpack's require.context to load all scenario modules eagerly
+const req = (require as any).context('./', true, /index\.ts$/);
 
 export const allAgentSets: Record<string, RealtimeAgent[]> = {};
 
-for (const path in modules) {
-  const key = path.split('/')[1]; // './scenarioName/index.ts'
-  const mod = modules[path];
+req.keys().forEach((path: string) => {
+  const match = path.match(/\.\/([^/]+)\/index\.ts$/);
+  if (!match) return;
+  const key = match[1];
+  const mod = req(path);
   const scenario = mod.default ?? mod[`${key}Scenario`];
   if (scenario) {
     allAgentSets[key] = scenario as RealtimeAgent[];
   }
-}
+});
 
 export const defaultAgentSetKey = 'chatSupervisor';
